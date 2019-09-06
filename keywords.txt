@@ -1,0 +1,71 @@
+###########################################
+# Syntax Coloring Map For XELNetworkSlave
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+XELNetworkSlave	KEYWORD1
+
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+# XELNetworkSlave Class
+begin	KEYWORD2
+run	KEYWORD2
+addTopicItem	KEYWORD2
+
+
+###########################################
+# Structures (KEYWORD3)
+###########################################
+
+# XELNetwork Common
+TopicItemHeader_t	KEYWORD3
+TopicMode	KEYWORD3
+ROS2XELTopicIdNum	KEYWORD3
+
+# ROS2-compatible message structure
+geometry_msgs_Point_t	KEYWORD3
+geometry_msgs_Vector3_t	KEYWORD3
+geometry_msgs_Quaternion_t	KEYWORD3
+geometry_msgs_Twist_t	KEYWORD3
+geometry_msgs_Pose_t	KEYWORD3
+
+
+###########################################
+# Constants (LITERAL1)
+###########################################
+
+# XELNetwork Common
+XEL_NETWORK_SLAVE_MODEL_NUM	LITERAL1
+SLAVE_TOPIC_ITEM_FIRST_ADDR	LITERAL1
+XEL_TOPIC_NAME_SIZE	LITERAL1
+SLAVE_TOPIC_ITEM_MAX	LITERAL1
+
+# Topic Mode
+SUB	LITERAL1
+PUB	LITERAL1
+
+# ROS2-compatible message ID
+STD_MSGS_BOOL_TOPIC_ID	LITERAL1
+STD_MSGS_CHAR_TOPIC_ID	LITERAL1
+STD_MSGS_INT8_TOPIC_ID	LITERAL1
+STD_MSGS_INT16_TOPIC_ID	LITERAL1
+STD_MSGS_INT32_TOPIC_ID	LITERAL1
+STD_MSGS_INT64_TOPIC_ID	LITERAL1
+STD_MSGS_UINT8_TOPIC_ID	LITERAL1
+STD_MSGS_UINT16_TOPIC_ID	LITERAL1
+STD_MSGS_UINT32_TOPIC_ID	LITERAL1
+STD_MSGS_UINT64_TOPIC_ID	LITERAL1
+STD_MSGS_FLOAT32_TOPIC_ID	LITERAL1
+STD_MSGS_FLOAT64_TOPIC_ID	LITERAL1
+
+GEOMETRY_MSGS_POINT_TOPIC_ID	LITERAL1
+GEOMETRY_MSGS_VECTOR3_TOPIC_ID	LITERAL1
+GEOMETRY_MSGS_QUATERNION_TOPIC_ID	LITERAL1
+GEOMETRY_MSGS_TWIST_TOPIC_ID	LITERAL1
+GEOMETRY_MSGS_POSE_TOPIC_ID	LITERAL1
