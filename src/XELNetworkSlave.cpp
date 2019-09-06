@@ -57,6 +57,9 @@ bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, uint8_t top
     return false;
 
   uint16_t data_size = (uint16_t)getSizeOfTopicType(topic_id);
+  if(data_size == 0)
+    return false;
+
   uint16_t header_size = sizeof(TopicItemHeader_t);
   uint16_t addr_length = header_size + data_size;
 
