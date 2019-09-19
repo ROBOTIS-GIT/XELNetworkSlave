@@ -41,6 +41,13 @@ class XELNetworkSlave
     bool addTopicItem(const char* p_name, uint8_t mode, float &data, uint16_t publish_interval_ms = 1000);
     bool addTopicItem(const char* p_name, uint8_t mode, double &data, uint16_t publish_interval_ms = 1000);
 
+    uint8_t getID() const;
+    void setBaudrateIndex(uint8_t baud_idx);
+    uint8_t getBaudrateIndex() const;
+    uint8_t getProtocolVersionIndex() const;
+
+    DYNAMIXEL::SerialPortHandler& getPort() const;
+
   private:
     DYNAMIXEL::SerialPortHandler dxl_port_;
     DYNAMIXEL::Slave dxl_;
@@ -52,6 +59,8 @@ class XELNetworkSlave
 
     TopicItemInfo_t topic_item_table_[SLAVE_TOPIC_ITEM_MAX];
     uint8_t registered_item_cnt_;
+
+    uint8_t item_port_baud_idx_;   
 };
 
 

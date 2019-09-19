@@ -95,6 +95,7 @@ typedef struct geometry_msgs_Pose{
 
 
 uint16_t getSizeOfTopicType(uint8_t topic_id);
-
+uint32_t getBaudrateValueFromIndex(uint8_t baud_index);
+uint8_t getBaudrateIndexFromValue(uint32_t baudrate);
 
 #endif /* XEL_NETWORK_COMMON_H_ */

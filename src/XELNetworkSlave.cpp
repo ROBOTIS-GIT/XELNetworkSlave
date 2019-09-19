@@ -17,21 +17,42 @@
 #include "XELNetworkSlave.h"
 
 
+enum XELNetworkSlaveDefaultItemAddr{
+  // ADDR_MODEL_NUMBER    = 0, //2byte, Default setting in the Slave class.
+  // ADDR_FIRMWARE_VER    = 6, //1byte, Default setting in the Slave class.
+  // ADDR_ID              = 7, //1byte, Default setting in the Slave class.    
+  ADDR_BAUDRATE           = 8, //1byte
+  // ADDR_PROTOCOL_VER    = 9, //1byte, Default setting in the Slave class.
+};
+
+static void read_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg);
+
+
 /* XELNetworkSlave */
 XELNetworkSlave::XELNetworkSlave(HardwareSerial& dxl_port_serial, const int dir_pin)
 : dxl_port_(dxl_port_serial, dir_pin), dxl_(XEL_NETWORK_SLAVE_MODEL_NUM),
-  registered_item_cnt_(0)
+  registered_item_cnt_(0), item_port_baud_idx_(1)
 {
   memset(topic_item_table_, 0, sizeof(TopicItemInfo_t));
   dxl_.setPort(dxl_port_);
+
+  dxl_.setReadCallbackFunc(read_callback_func_default, this);
+
+  dxl_.addControlItem(ADDR_BAUDRATE, item_port_baud_idx_);
 }
 
 void XELNetworkSlave::begin(uint8_t id, uint32_t baud, const float dxl_port_protocol_ver)
 {
+  uint8_t baud_idx = getBaudrateIndexFromValue(baud);
+  if(baud_idx == 0xFF){
+    baud = 57600;
+    baud_idx = getBaudrateIndexFromValue(baud);
+  }
+  item_port_baud_idx_ = baud_idx;
   dxl_port_.begin(baud);
 
   if(dxl_.setPortProtocolVersion(dxl_port_protocol_ver) == false)
-    dxl_.setPortProtocolVersion(2.0);
+    dxl_.setPortProtocolVersion((float)2.0);
     
   if(dxl_.setID(id) == false)
     dxl_.setID(1);
@@ -142,4 +163,43 @@ bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, float &data
 bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, double &data, uint16_t publish_interval_ms)
 {
   return addTopicItem(p_name, mode, (uint8_t)STD_MSGS_FLOAT64_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
+}
+
+
+uint8_t XELNetworkSlave::getID() const
+{
+  return dxl_.getID();
+}
+
+uint8_t XELNetworkSlave::getBaudrateIndex() const
+{
+  return item_port_baud_idx_;
+}
+
+uint8_t XELNetworkSlave::getProtocolVersionIndex() const
+{
+  return dxl_.getPortProtocolVersionIndex();
+}
+
+void XELNetworkSlave::setBaudrateIndex(uint8_t baud_idx)
+{
+  item_port_baud_idx_ = baud_idx;
+}
+
+DYNAMIXEL::SerialPortHandler& XELNetworkSlave::getPort() const
+{
+  return (DYNAMIXEL::SerialPortHandler&)dxl_port_;
+}
+
+
+static void read_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg)
+{
+  (void)dxl_err_code;
+
+  XELNetworkSlave* p_slave = (XELNetworkSlave*)arg;
+
+  if(item_addr == ADDR_BAUDRATE){
+    DYNAMIXEL::SerialPortHandler& port = (DYNAMIXEL::SerialPortHandler&)p_slave->getPort();
+    p_slave->setBaudrateIndex(getBaudrateIndexFromValue((uint32_t)port.getBaud()));
+  }
 }
