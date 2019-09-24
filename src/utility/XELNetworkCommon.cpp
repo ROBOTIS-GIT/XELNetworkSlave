@@ -74,7 +74,7 @@ uint16_t getSizeOfTopicType(uint8_t topic_id)
 
 uint32_t getBaudrateValueFromIndex(uint8_t baud_index)
 {
-  uint32_t baudrate;
+  uint32_t baudrate = 0;
 
   switch(baud_index)
   {
@@ -102,9 +102,6 @@ uint32_t getBaudrateValueFromIndex(uint8_t baud_index)
     case 7:
       baudrate = 4500000;
       break;
-    default:
-      baudrate = 57600;
-      break;       
   }
 
   return baudrate;
@@ -112,7 +109,7 @@ uint32_t getBaudrateValueFromIndex(uint8_t baud_index)
 
 uint8_t getBaudrateIndexFromValue(uint32_t baudrate)
 {
-  uint8_t baud_idx;
+  uint8_t baud_idx = 0xFF;
 
   switch(baudrate)
   {
@@ -140,9 +137,6 @@ uint8_t getBaudrateIndexFromValue(uint32_t baudrate)
     case 4500000:
       baud_idx = 7;
       break;
-    default:
-      baud_idx = 1;
-      break;      
   }
 
   return baud_idx;
