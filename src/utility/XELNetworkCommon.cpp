@@ -93,15 +93,15 @@ uint32_t getBaudrateValueFromIndex(uint8_t baud_index)
     case 4:
       baudrate = 2000000;
       break;
-    case 5:
-      baudrate = 3000000;
-      break;
+    // case 5:
+    //   baudrate = 3000000;
+    //   break;
     case 6:
       baudrate = 4000000;
       break;
-    case 7:
-      baudrate = 4500000;
-      break;
+    // case 7:
+    //   baudrate = 4500000;
+    //   break;
   }
 
   return baudrate;
@@ -128,15 +128,15 @@ uint8_t getBaudrateIndexFromValue(uint32_t baudrate)
     case 2000000:
       baud_idx = 4;
       break;
-    case 3000000:
-      baud_idx = 5;
-      break;
+    // case 3000000:
+    //   baud_idx = 5;
+    //   break;
     case 4000000:
       baud_idx = 6;
       break;
-    case 4500000:
-      baud_idx = 7;
-      break;
+    // case 4500000:
+    //   baud_idx = 7;
+    //   break;
   }
 
   return baud_idx;

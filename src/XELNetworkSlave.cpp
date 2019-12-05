@@ -18,14 +18,15 @@
 
 
 enum XELNetworkSlaveDefaultItemAddr{
-  // ADDR_MODEL_NUMBER    = 0, //2byte, Default setting in the Slave class.
-  // ADDR_FIRMWARE_VER    = 6, //1byte, Default setting in the Slave class.
-  // ADDR_ID              = 7, //1byte, Default setting in the Slave class.    
-  ADDR_BAUDRATE           = 8, //1byte
-  // ADDR_PROTOCOL_VER    = 9, //1byte, Default setting in the Slave class.
+  // ADDR_ITEM_MODEL_NUMBER    = 0, //2byte, Default setting in the Slave class.
+  // ADDR_ITEM_FIRMWARE_VER    = 6, //1byte, Default setting in the Slave class.
+  // ADDR_ITEM_ID              = 7, //1byte, Default setting in the Slave class.    
+  ADDR_ITEM_BAUDRATE           = 8, //1byte
+  // ADDR_ITEM_PROTOCOL_VER    = 9, //1byte, Default setting in the Slave class.
 };
 
-static void read_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg);
+//static void read_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg);
+static void write_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg);
 
 
 /* XELNetworkSlave */
@@ -36,9 +37,10 @@ XELNetworkSlave::XELNetworkSlave(HardwareSerial& dxl_port_serial, const int dir_
   memset(topic_item_table_, 0, sizeof(TopicItemInfo_t));
   dxl_.setPort(dxl_port_);
 
-  dxl_.setReadCallbackFunc(read_callback_func_default, this);
+//  dxl_.setReadCallbackFunc(read_callback_func_default, this);
+  dxl_.setWriteCallbackFunc(write_callback_func_default, this);
 
-  dxl_.addControlItem(ADDR_BAUDRATE, item_port_baud_idx_);
+  dxl_.addControlItem(ADDR_ITEM_BAUDRATE, item_port_baud_idx_);
 }
 
 void XELNetworkSlave::begin(uint8_t id, uint32_t baud, const float dxl_port_protocol_ver)
@@ -192,14 +194,31 @@ DYNAMIXEL::SerialPortHandler& XELNetworkSlave::getPort() const
 }
 
 
-static void read_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg)
+// static void read_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg)
+// {
+//   dxl_err_code = 0;
+
+//   XELNetworkSlave* p_slave = (XELNetworkSlave*)arg;
+// }
+
+static void write_callback_func_default(uint16_t item_addr, uint8_t &dxl_err_code, void* arg)
 {
-  (void)dxl_err_code;
+  dxl_err_code = 0;
 
   XELNetworkSlave* p_slave = (XELNetworkSlave*)arg;
 
-  if(item_addr == ADDR_BAUDRATE){
+  if(item_addr == ADDR_ITEM_BAUDRATE){
     DYNAMIXEL::SerialPortHandler& port = (DYNAMIXEL::SerialPortHandler&)p_slave->getPort();
-    p_slave->setBaudrateIndex(getBaudrateIndexFromValue((uint32_t)port.getBaud()));
+    uint32_t baudrate = getBaudrateValueFromIndex(p_slave->getBaudrateIndex());
+    if(baudrate != 0){
+      port.begin(baudrate);
+    }else{
+      p_slave->setBaudrateIndex(getBaudrateIndexFromValue(port.getBaud()));
+      if(p_slave->getProtocolVersionIndex() == 2){
+        dxl_err_code = DXL2_0_ERR_DATA_RANGE;
+      }else if(p_slave->getProtocolVersionIndex() == 1){
+        dxl_err_code |= 1<<DXL1_0_ERR_RANGE_BIT;
+      }
+    }
   }
 }
