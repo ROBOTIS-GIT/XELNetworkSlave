@@ -41,6 +41,12 @@ class XELNetworkSlave
     bool addTopicItem(const char* p_name, uint8_t mode, float &data, uint16_t publish_interval_ms = 1000);
     bool addTopicItem(const char* p_name, uint8_t mode, double &data, uint16_t publish_interval_ms = 1000);
 
+    bool addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Point_t &data, uint16_t publish_interval_ms = 1000);
+    bool addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Vector3_t &data, uint16_t publish_interval_ms = 1000);
+    bool addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Quaternion_t &data, uint16_t publish_interval_ms = 1000);
+    bool addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Twist_t &data, uint16_t publish_interval_ms = 1000);
+    bool addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Pose_t &data, uint16_t publish_interval_ms = 1000);
+
     uint8_t getID() const;
     void setBaudrateIndex(uint8_t baud_idx);
     uint8_t getBaudrateIndex() const;

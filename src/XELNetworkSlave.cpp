@@ -162,9 +162,35 @@ bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, float &data
   return addTopicItem(p_name, mode, (uint8_t)STD_MSGS_FLOAT32_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
 }
 
+/* Geometry msgs */
 bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, double &data, uint16_t publish_interval_ms)
 {
   return addTopicItem(p_name, mode, (uint8_t)STD_MSGS_FLOAT64_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
+}
+
+bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Point_t &data, uint16_t publish_interval_ms)
+{
+  return addTopicItem(p_name, mode, (uint8_t)GEOMETRY_MSGS_POINT_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
+}
+
+bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Vector3_t &data, uint16_t publish_interval_ms)
+{
+  return addTopicItem(p_name, mode, (uint8_t)GEOMETRY_MSGS_VECTOR3_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
+}
+
+bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Quaternion_t &data, uint16_t publish_interval_ms)
+{
+  return addTopicItem(p_name, mode, (uint8_t)GEOMETRY_MSGS_QUATERNION_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
+}
+
+bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Twist_t &data, uint16_t publish_interval_ms)
+{
+  return addTopicItem(p_name, mode, (uint8_t)GEOMETRY_MSGS_TWIST_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
+}
+
+bool XELNetworkSlave::addTopicItem(const char* p_name, uint8_t mode, geometry_msgs_Pose_t &data, uint16_t publish_interval_ms)
+{
+  return addTopicItem(p_name, mode, (uint8_t)GEOMETRY_MSGS_POSE_TOPIC_ID, (uint8_t*)&data, publish_interval_ms);
 }
 
 
